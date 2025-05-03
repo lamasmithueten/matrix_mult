@@ -1,7 +1,7 @@
 ## Matrix Multiplication
 
 This repository shows my first simple implementations of a parallelized matrix multiplication.
-Since matrix multiplications can be done in parallel, they can be sped up by a lot.
+Since matrix multiplications can be done in parallel, they can be sped up by using multiple CPU or GPU cores.
 
 The repository has the following structure:
 
