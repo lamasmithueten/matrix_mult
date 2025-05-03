@@ -10,7 +10,6 @@ void readMatrixFromCSV(const char *filename, int **matrix) {
     perror("Failed to open file");
     exit(EXIT_FAILURE);
   }
-
   for (int i = 0; i < SIZE; ++i) {
     for (int j = 0; j < SIZE; ++j) {
       if (fscanf(file, "%d,", &matrix[i][j]) != 1) {
@@ -63,6 +62,8 @@ int **allocateMatrix(int rows, int cols) {
     exit(EXIT_FAILURE);
   }
 
+
+#pragma omp parallel for 
   for (int i = 0; i < rows; ++i) {
     matrix[i] = (int *)malloc(cols * sizeof(int));
     if (matrix[i] == NULL) {
@@ -75,6 +76,7 @@ int **allocateMatrix(int rows, int cols) {
 }
 
 void freeMatrix(int **matrix, int rows) {
+#pragma omp parallel for
   for (int i = 0; i < rows; ++i) {
     free(matrix[i]);
   }
