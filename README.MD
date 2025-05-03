@@ -19,7 +19,7 @@ The repository has the following structure:
 
 Each C-file takes two matrices as input. They are stored in CSV files.
 
-In the `input` directory is a small python script to generate two NxN matrices, which can be used as inpu matrices. 
+In the `input` directory is a small python script to generate two NxN matrices, which can be used as input matrices. 
 By default they are 2500x2500 matrices.
 
 ## Implementation
