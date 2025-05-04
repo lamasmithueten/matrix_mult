@@ -10,18 +10,34 @@ The repository has the following structure:
 ```
 .
 ├── cuda
+│   ├── header
+│   │   ├── config.h
+│   │   ├── csv.cu
+│   │   └── csv.h
 │   └── matrix.cu
+├── header
+│   ├── csv.c
+│   └── csv.h
 ├── input
-│   └── generate.py
+│   └── input.c
+├── makefile
 ├── normal
+│   ├── header
+│   │   ├── config.h
+│   │   ├── csv.c
+│   │   └── csv.h
 │   └── matrix.c
 └── openmp
+    ├── header
+    │   ├── config.h
+    │   ├── csv.c
+    │   └── csv.h
     └── matrix.c
 ```
 
-Each C-file takes two matrices as input. They are stored in CSV files.
+Each implementation takes two matrices as input. They are stored in CSV files.
 
-In the `input` directory is a small python script to generate two NxN matrices, which can be used as input matrices. 
+In the `input` directory is a small C program to generate two NxN matrices, which can be used as input matrices. 
 By default they are 2500x2500 matrices.
 
 ## Implementation
