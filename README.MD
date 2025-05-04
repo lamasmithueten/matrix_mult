@@ -1,7 +1,9 @@
 ## Matrix Multiplication
 
 This repository shows my first simple implementations of a parallelized matrix multiplication.
-Since matrix multiplications can be done in parallel, they can be sped up by using multiple CPU or GPU cores.
+It is my first atempt to get a feeling for programming with parallel programming libraries and their toolchains. It is by no means a professional implementation and still very basic.
+
+Since matrix multiplications can be done in parallel, they can be sped up by using multiple CPU or GPU cores. Additionally compiler flags for auto-vectorization have been enabled in the makefile.
 
 The repository has the following structure:
 
@@ -24,47 +26,12 @@ By default they are 2500x2500 matrices.
 
 ## Implementation
 
-The default serial implementation of the matrix multiplication is in the `normal` folder. It runs on a single thread and scales very poorly. You need to compile the program and then give the two input CSVs. The program saves the result in a new CSV called `result_normal.csv`.
+To show how parallelization can increase performance, I have implemented matrix multiplication in 3 ways. Using plain single threaded C, C in combination with OpenMP to use multiple CPU cores and using C with CUDA to utilize the CUDA cores of an Nvidia GPU.
 
-To run the first test you need to run the following commands, assuming you are in the root folder of the project:
+To compile the application you can use the `makefile` and compile all three programs using the `make` command in the root of the directory. It creates 2 input CSVs and three binaries `matrix`, `matrix_omp` and `matrix_cuda`. Each binary requires two input CSV and creates a result CSV. I used files as input and output to reuse the same input for different binaries. Also printing large result matrices onto the screen requires a lot CPU-time, which isn't what I am benchmarking.
 
-```
-cd normal
-gcc -o matrix matrix.c
-mv matrix ../input/
-cd ../input/
-chmod +x generate.py
-./generate.py
-./matrix matrix1.csv matrix2.csv
-```
+Adjust the compiler flags or compiler in the makefile to your needs. 
 
-The second implementation uses OpenMP to utilize multiple threads. It is located in the `openmp` folder. It scales much better than the default implementation, because it can use all your CPU cores to do the matrix multiplication. The program saves the result in a new CSV called `result_omp.csv`. Running this code requires certain OpenMP-development-libraries to be installed.
-
-To run the second test you need to run the following commands, assuming you are in the root folder of the project:
-
-```
-cd openmp
-gcc -fopenmp -o matrix_omp matrix.c
-mv matrix_omp ../input/
-cd ../input/
-chmod +x generate.py
-./generate.py
-./matrix_omp matrix1.csv matrix2.csv
-```
-
-The third implementation uses CUDA and requires an Nvidia GPU to run. It is located in the `cuda` folder. This implementation scales very well, because modern Nvidia GPUs have thousands of CUDA-cores. The program saves the result in a new CSV called `result_cuda.csv`. Running this code requires CUDA and its toolchain to run.
-
-To run the second test you need to run the following commands, assuming you are in the root folder of the project:
-
-```
-cd cuda
-nvcc -o matrix_cuda matrix.cu
-mv matrix_cuda ../input/
-cd ../input/
-chmod +x generate.py
-./generate.py
-./matrix_cuda matrix1.csv matrix2.csv
-```
 
 ## Results
 

@@ -1,8 +1,9 @@
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "header/config.h"
+#include "header/csv.h"
 
-#define SIZE 2500
 
 __global__ void matrixMul(int *A, int *B, int *C, int N) {
   int row = blockIdx.y * blockDim.y + threadIdx.y;
@@ -27,7 +28,7 @@ void matrixMulWrapper(int *d_A, int *d_B, int *d_C, int N) {
   matrixMul<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, N);
 }
 
-void readMatrixFromCSV(const char *filename, int **matrix) {
+/*void readMatrixFromCSV(const char *filename, int **matrix) {
   FILE *file = fopen(filename, "r");
   if (file == NULL) {
     perror("Failed to open file");
@@ -45,7 +46,7 @@ void readMatrixFromCSV(const char *filename, int **matrix) {
   }
 
   fclose(file);
-}
+}*/
 
 int **allocateMatrix(int rows, int cols) {
   int **matrix = (int **)malloc(rows * sizeof(int *));
@@ -65,7 +66,7 @@ int **allocateMatrix(int rows, int cols) {
   return matrix;
 }
 
-void writeMatrixToCSV(const char *filename, int **matrix) {
+/*void writeMatrixToCSV(const char *filename, int **matrix) {
   FILE *file = fopen(filename, "w");
   if (file == NULL) {
     perror("Failed to open file");
@@ -83,7 +84,7 @@ void writeMatrixToCSV(const char *filename, int **matrix) {
   }
 
   fclose(file);
-}
+}*/
 
 void freeMatrix(int **matrix, int rows) {
   for (int i = 0; i < rows; ++i) {
