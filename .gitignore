@@ -1,0 +1,4 @@
+*.csv
+matrix
+matrix_cuda
+matrix_omp
