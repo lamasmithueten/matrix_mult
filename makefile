@@ -1,9 +1,9 @@
 CC            = gcc
 NVCC          = nvcc
 
-CFLAGS_NORMAL = -O3 -march=native -mtune=native 
-CFLAGS_OMP    = -O3 -march=native -mtune=native -fopenmp
-CFLAGS_NVCC   = -O3 -Wno-deprecated-gpu-targets
+CFLAGS_NORMAL = -O3 -march=native -mtune=native -ffast-math -flto
+CFLAGS_OMP    = -O3 -march=native -mtune=native -ffast-math -flto -fopenmp
+CFLAGS_NVCC   = -O3 -Wno-deprecated-gpu-targets -use_fast_math -Xcompiler -march=native
 CFLAGS_MATRIX = -O3 -march=native -mtune=native
 
 OUTPUT_NORMAL = matrix
