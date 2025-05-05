@@ -20,7 +20,7 @@ SRC_MATRIX    = input/input.c
 INPUT1        = matrix1.csv
 INPUT2        = matrix2.csv
 
-MATRIX_SIZE   = 2500
+MATRIX_SIZE   = 1000
 
 all: set_size $(OUTPUT_MATRIX) $(OUTPUT_NORMAL) $(OUTPUT_OMP) $(OUTPUT_NVCC) create_matrix
 
@@ -47,3 +47,13 @@ set_size:
 
 clean:
 	rm -rf $(OUTPUT_NORMAL) $(OUTPUT_OMP) $(OUTPUT_NVCC) $(INPUT1) $(INPUT2) $(OUTPUT_MATRIX) *.csv
+
+time:
+	bash -c	"time ./$(OUTPUT_NORMAL) $(INPUT1) $(INPUT2) "
+	bash -c "time ./$(OUTPUT_OMP)  $(INPUT1) $(INPUT2)"
+	bash -c "time ./$(OUTPUT_NVCC) $(INPUT1) $(INPUT2)"
+
+pretty:	
+	find . -name "*.h" -exec clang-format -i {} \;
+	find . -name "*.c" -exec clang-format -i {} \;
+	find . -name "*.cu" -exec clang-format -i {} \;

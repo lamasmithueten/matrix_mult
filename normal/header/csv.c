@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 void readMatrixFromCSV(const char *filename, int **matrix) {
   FILE *file = fopen(filename, "r");
   if (file == NULL) {

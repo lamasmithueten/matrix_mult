@@ -1,10 +1,8 @@
+#include "header/config.h"
+#include "header/csv.h"
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "header/csv.h"
-#include "header/config.h"
-
-
 
 void matrixMultiply(int **A, int **B, int **C) {
 #pragma omp parallel for collapse(2)
@@ -18,7 +16,6 @@ void matrixMultiply(int **A, int **B, int **C) {
   }
 }
 
-
 int **allocateMatrix(int rows, int cols) {
   int **matrix = (int **)malloc(rows * sizeof(int *));
   if (matrix == NULL) {
@@ -26,8 +23,7 @@ int **allocateMatrix(int rows, int cols) {
     exit(EXIT_FAILURE);
   }
 
-
-#pragma omp parallel for 
+#pragma omp parallel for
   for (int i = 0; i < rows; ++i) {
     matrix[i] = (int *)malloc(cols * sizeof(int));
     if (matrix[i] == NULL) {

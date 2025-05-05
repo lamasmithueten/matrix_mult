@@ -2,3 +2,4 @@
 matrix
 matrix_cuda
 matrix_omp
+gen_matrix

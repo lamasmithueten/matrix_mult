@@ -1,9 +1,7 @@
+#include "header/config.h"
+#include "header/csv.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "header/csv.h"
-#include "header/config.h"
-
-
 
 void matrixMultiply(int **A, int **B, int **C) {
   for (int i = 0; i < SIZE; ++i) {
@@ -15,7 +13,6 @@ void matrixMultiply(int **A, int **B, int **C) {
     }
   }
 }
-
 
 int **allocateMatrix(int rows, int cols) {
   int **matrix = (int **)malloc(rows * sizeof(int *));

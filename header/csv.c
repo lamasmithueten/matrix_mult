@@ -1,6 +1,5 @@
 #include "csv.h"
 
-
 void readMatrixFromCSV(const char *filename, int **matrix) {
   FILE *file = fopen(filename, "r");
   if (file == NULL) {

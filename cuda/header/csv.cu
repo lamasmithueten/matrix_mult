@@ -1,8 +1,7 @@
-#include "csv.h"
 #include "config.h"
+#include "csv.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 
 void readMatrixFromCSV(const char *filename, int **matrix) {
   FILE *file = fopen(filename, "r");
