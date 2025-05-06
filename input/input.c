@@ -4,15 +4,16 @@
 
 #define SIZE 2500
 
-void createMatrix(const char *filename) {
+void createMatrix(const char *filename, int rows, int cols) {
   FILE *file = fopen(filename, "w");
   if (file == NULL) {
     perror("Failed to open file");
     exit(EXIT_FAILURE);
   }
 
-  for (int i = 0; i < SIZE; i++) {
-    for (int j = 0; j < SIZE; j++) {
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
       fprintf(file, "%d", rand() % 99 + 1);
       if (j < SIZE - 1) {
         fprintf(file, ",");
@@ -31,8 +32,13 @@ int main(int argc, char **argv) {
   }
   srand(time(0));
 
-  createMatrix(argv[1]);
-  createMatrix(argv[2]);
+  int range = SIZE /10;
+  int n = SIZE + (rand() % range + (-range/2 ));
+  int m = SIZE + (rand() % range + (-range/2 ));
+  int p = SIZE + (rand() % range + (-range/2 ));
+
+  createMatrix(argv[1], n, m);
+  createMatrix(argv[2], m , p);
 
   return EXIT_SUCCESS;
 }
