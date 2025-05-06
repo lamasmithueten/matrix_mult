@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define SIZE 1000
+#define SIZE 2500
 
 void createMatrix(const char *filename) {
   FILE *file = fopen(filename, "w");

@@ -20,7 +20,7 @@ SRC_MATRIX    = input/input.c
 INPUT1        = matrix1.csv
 INPUT2        = matrix2.csv
 
-MATRIX_SIZE   = 1000
+MATRIX_SIZE   = 2500
 
 all: set_size $(OUTPUT_MATRIX) $(OUTPUT_NORMAL) $(OUTPUT_OMP) $(OUTPUT_NVCC) create_matrix
 
