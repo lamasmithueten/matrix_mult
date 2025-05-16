@@ -42,8 +42,8 @@ void freeMatrix(int **matrix, int rows) {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc != 3) {
-    fprintf(stderr, "Usage: %s <matrix1.csv> <matrix2.csv>\n", argv[0]);
+  if (argc < 3 || argc > 4) {
+    fprintf(stderr, "Usage: %s <matrix1.csv> <matrix2.csv> (optionally <result.csv>)\n", argv[0]);
     return EXIT_FAILURE;
   }
 
@@ -64,7 +64,12 @@ result.cols=matrixB.cols;
 
   matrixMultiply(&matrixA, &matrixB, &result);
 
+if(argc ==3){
   writeMatrixToCSV("result_normal.csv", &result);
+}
+else{
+  writeMatrixToCSV(argv[3], &result);
+}
 
   freeMatrix(matrixA.matrix, matrixA.rows );
   freeMatrix(matrixB.matrix, matrixB.rows);
