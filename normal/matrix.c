@@ -3,16 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void matrixMultiply(int **A, int **B, int **C) {
-  for (int i = 0; i < SIZE; ++i) {
-    for (int j = 0; j < SIZE; ++j) {
-      C[i][j] = 0;
-      for (int k = 0; k < SIZE; ++k) {
-        C[i][j] += A[i][k] * B[k][j];
+
+void matrixMultiply(Matrix * A, Matrix * B, Matrix * C) {
+  for (int i = 0; i < A->rows; ++i) {
+    for (int j = 0; j < B->cols; ++j) {
+      C->matrix[i][j] = 0;
+      for (int k = 0; k < B->rows; ++k) {
+        C->matrix[i][j] += A->matrix[i][k] * B->matrix[k][j];
       }
     }
   }
 }
+
 
 int **allocateMatrix(int rows, int cols) {
   int **matrix = (int **)malloc(rows * sizeof(int *));
@@ -45,20 +47,28 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int **matrixA = allocateMatrix(SIZE, SIZE);
-  int **matrixB = allocateMatrix(SIZE, SIZE);
-  int **result = allocateMatrix(SIZE, SIZE);
+Matrix matrixA, matrixB, result;
 
-  readMatrixFromCSV(argv[1], matrixA);
-  readMatrixFromCSV(argv[2], matrixB);
+calcMatrixSize(argv[1], &matrixA);
+calcMatrixSize(argv[2], &matrixB);
+result.rows=matrixA.rows;
+result.cols=matrixB.cols;
 
-  matrixMultiply(matrixA, matrixB, result);
 
-  writeMatrixToCSV("result_normal.csv", result);
+  matrixA.matrix = allocateMatrix(matrixA.rows, matrixA.cols);
+  matrixB.matrix = allocateMatrix(matrixB.rows, matrixB.cols);
+  result.matrix = allocateMatrix(result.rows, result.cols);
 
-  freeMatrix(matrixA, SIZE);
-  freeMatrix(matrixB, SIZE);
-  freeMatrix(result, SIZE);
+  readMatrixFromCSV(argv[1], &matrixA);
+  readMatrixFromCSV(argv[2], &matrixB);
+
+  matrixMultiply(&matrixA, &matrixB, &result);
+
+  writeMatrixToCSV("result_normal.csv", &result);
+
+  freeMatrix(matrixA.matrix, matrixA.rows );
+  freeMatrix(matrixB.matrix, matrixB.rows);
+  freeMatrix(result.matrix, result.rows);
 
   return EXIT_SUCCESS;
 }

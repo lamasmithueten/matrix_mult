@@ -15,7 +15,7 @@ void createMatrix(const char *filename, int rows, int cols) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       fprintf(file, "%d", rand() % 99 + 1);
-      if (j < SIZE - 1) {
+      if (j < cols - 1) {
         fprintf(file, ",");
       }
     }

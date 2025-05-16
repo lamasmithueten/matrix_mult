@@ -22,7 +22,8 @@ INPUT2        = matrix2.csv
 
 MATRIX_SIZE   = 2500
 
-all: set_size $(OUTPUT_MATRIX) $(OUTPUT_NORMAL) $(OUTPUT_OMP) $(OUTPUT_NVCC) create_matrix
+#all: set_size $(OUTPUT_MATRIX) $(OUTPUT_NORMAL) $(OUTPUT_OMP) $(OUTPUT_NVCC) create_matrix
+all: set_size $(OUTPUT_MATRIX) $(OUTPUT_NORMAL) $(OUTPUT_OMP) create_matrix
 
 create_matrix: 
 	[[ -f $(INPUT1) && -f $(INPUT2) ]] && printf "Files exist\n" || ./$(OUTPUT_MATRIX) $(INPUT1) $(INPUT2)

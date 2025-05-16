@@ -1,7 +1,12 @@
 #ifndef CSV_H_
 #define CSV_H_
 
-void readMatrixFromCSV(const char *filename, int **matrix);
-void writeMatrixToCSV(const char *filename, int **matrix);
+typedef struct{
+	int ** matrix;
+	int rows, cols;
+} Matrix;
+void readMatrixFromCSV(const char *filename, Matrix * matrix);
+void writeMatrixToCSV(const char *filename, Matrix *matrix);
+void calcMatrixSize(const char * filename, Matrix * matrix);
 
 #endif
