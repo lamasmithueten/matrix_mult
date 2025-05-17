@@ -1,4 +1,3 @@
-#include "header/config.h"
 #include "header/csv.h"
 #include <stdio.h>
 #include <stdlib.h>
