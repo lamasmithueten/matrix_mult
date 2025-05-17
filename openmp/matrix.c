@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
   matrixMultiply(&matrixA, &matrixB, &result);
 
   if (argc == 3) {
-    writeMatrixToCSV("result_normal.csv", &result);
+    writeMatrixToCSV("result_omp.csv", &result);
   } else {
     writeMatrixToCSV(argv[3], &result);
   }
