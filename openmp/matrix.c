@@ -7,8 +7,8 @@ void matrixMultiply(Matrix *A, Matrix *B, Matrix *C) {
 #pragma omp parallel for
   for (int i = 0; i < A->rows; ++i) {
     for (int j = 0; j < B->cols; ++j) {
-    int sum = 0;
-            #pragma omp simd reduction(+:sum)
+      int sum = 0;
+#pragma omp simd reduction(+ : sum)
       for (int k = 0; k < B->rows; ++k) {
         sum += A->matrix[i][k] * B->matrix[k][j];
       }
@@ -16,8 +16,6 @@ void matrixMultiply(Matrix *A, Matrix *B, Matrix *C) {
     }
   }
 }
-
-
 
 int **allocateMatrix(int rows, int cols) {
   int **matrix = (int **)malloc(rows * sizeof(int *));
