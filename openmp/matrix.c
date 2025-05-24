@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 void matrixMultiply(Matrix *A, Matrix *B, Matrix *C) {
-#pragma omp parallel for
+#pragma omp parallel for collapse(2)
   for (int i = 0; i < A->rows; ++i) {
     for (int j = 0; j < B->cols; ++j) {
       int sum = 0;
