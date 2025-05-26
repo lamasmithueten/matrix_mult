@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 __global__ void matrixMul(int *A, int *B, int *C, int aRows, int bRows, int bCols) {
-//  printf("hello from kernel\n");
   int col = blockIdx.y * blockDim.y + threadIdx.y;
   int row = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -14,9 +13,7 @@ __global__ void matrixMul(int *A, int *B, int *C, int aRows, int bRows, int bCol
       temp += A[row * bRows + k] * B[k * bCols + col];
     }
     C[row * bCols + col] = temp;
-//    printf("%d ", temp);
   }
-//  printf("\n");
 }
 
 void matrixMulWrapper(int *d_A, int *d_B, int *d_C, Matrix * A, Matrix * B) {
@@ -57,10 +54,8 @@ void freeMatrix(int **matrix, int rows) {
 }
 
 void copyMatrixToDevice(Matrix *hostMatrix, int **deviceMatrix) {
-  // Allocate memory on the device for the matrix
   cudaMalloc((void **)deviceMatrix, hostMatrix->rows * hostMatrix->cols * sizeof(int));
 
-  // Flatten the host matrix into a single array
   int *hostMatrixFlat = (int *)malloc(sizeof(int) * hostMatrix->rows * hostMatrix->cols);
 
   for (int i = 0; i < hostMatrix->rows; ++i) {
@@ -68,7 +63,6 @@ void copyMatrixToDevice(Matrix *hostMatrix, int **deviceMatrix) {
       hostMatrixFlat[i * hostMatrix->cols + j] = hostMatrix->matrix[i][j];
     }
   }
-  // Copy the flattened matrix to the device
   cudaMemcpy(*deviceMatrix, hostMatrixFlat, hostMatrix->rows * hostMatrix->cols * sizeof(int),
              cudaMemcpyHostToDevice);
 
@@ -105,9 +99,6 @@ int main(int argc, char *argv[]) {
   calcMatrixSize(argv[2], &matrixB); 
   result.rows = matrixA.rows;
   result.cols = matrixB.cols;
-/*printf("Matrix A: %dx%d\n", matrixA.rows, matrixA.cols);
-  printf("Matrix B: %dx%d\n", matrixB.rows, matrixB.cols);
-  printf("Result: %dx%d\n", result.rows, result.cols);*/
 
   matrixA.matrix = allocateMatrix(matrixA.rows, matrixA.cols);
   matrixB.matrix = allocateMatrix(matrixB.rows, matrixB.cols);
