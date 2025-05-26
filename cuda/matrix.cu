@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-__global__ void matrixMul(int *A, int *B, int *C, int aRows, int bRows, int bCols) {
+__global__ void matrixMul(int *A, int *B, int *C, int aRows, int bRows,
+                          int bCols) {
   int col = blockIdx.y * blockDim.y + threadIdx.y;
   int row = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -16,14 +17,14 @@ __global__ void matrixMul(int *A, int *B, int *C, int aRows, int bRows, int bCol
   }
 }
 
-void matrixMulWrapper(int *d_A, int *d_B, int *d_C, Matrix * A, Matrix * B) {
-  dim3 blockSize (32,32);
+void matrixMulWrapper(int *d_A, int *d_B, int *d_C, Matrix *A, Matrix *B) {
+  dim3 blockSize(32, 32);
   int aRows = A->rows;
   int bRows = B->rows;
   int bCols = B->cols;
 
   dim3 gridSize((aRows + blockSize.x - 1) / blockSize.x,
-               (bCols + blockSize.y - 1) / blockSize.y);
+                (bCols + blockSize.y - 1) / blockSize.y);
 
   matrixMul<<<gridSize, blockSize>>>(d_A, d_B, d_C, aRows, bRows, bCols);
 }
@@ -54,25 +55,30 @@ void freeMatrix(int **matrix, int rows) {
 }
 
 void copyMatrixToDevice(Matrix *hostMatrix, int **deviceMatrix) {
-  cudaMalloc((void **)deviceMatrix, hostMatrix->rows * hostMatrix->cols * sizeof(int));
+  cudaMalloc((void **)deviceMatrix,
+             hostMatrix->rows * hostMatrix->cols * sizeof(int));
 
-  int *hostMatrixFlat = (int *)malloc(sizeof(int) * hostMatrix->rows * hostMatrix->cols);
+  int *hostMatrixFlat =
+      (int *)malloc(sizeof(int) * hostMatrix->rows * hostMatrix->cols);
 
   for (int i = 0; i < hostMatrix->rows; ++i) {
     for (int j = 0; j < hostMatrix->cols; ++j) {
       hostMatrixFlat[i * hostMatrix->cols + j] = hostMatrix->matrix[i][j];
     }
   }
-  cudaMemcpy(*deviceMatrix, hostMatrixFlat, hostMatrix->rows * hostMatrix->cols * sizeof(int),
+  cudaMemcpy(*deviceMatrix, hostMatrixFlat,
+             hostMatrix->rows * hostMatrix->cols * sizeof(int),
              cudaMemcpyHostToDevice);
 
   free(hostMatrixFlat);
 }
 
 void copyMatrixToHost(int *deviceMatrix, Matrix *hostMatrix) {
-  int *hostMatrixFlat = (int *)malloc(sizeof(int) * hostMatrix->rows * hostMatrix->cols);
+  int *hostMatrixFlat =
+      (int *)malloc(sizeof(int) * hostMatrix->rows * hostMatrix->cols);
 
-  cudaMemcpy(hostMatrixFlat, deviceMatrix, hostMatrix->rows * hostMatrix->cols * sizeof(int),
+  cudaMemcpy(hostMatrixFlat, deviceMatrix,
+             hostMatrix->rows * hostMatrix->cols * sizeof(int),
              cudaMemcpyDeviceToHost);
 
   for (int i = 0; i < hostMatrix->rows; ++i) {
@@ -84,7 +90,6 @@ void copyMatrixToHost(int *deviceMatrix, Matrix *hostMatrix) {
   free(hostMatrixFlat);
 }
 
-
 int main(int argc, char *argv[]) {
   if (argc < 3 || argc > 4) {
     fprintf(stderr,
@@ -93,10 +98,10 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
   Matrix matrixA, matrixB, result;
-  int * d_matrixA, *d_matrixB, *d_result;
+  int *d_matrixA, *d_matrixB, *d_result;
 
   calcMatrixSize(argv[1], &matrixA);
-  calcMatrixSize(argv[2], &matrixB); 
+  calcMatrixSize(argv[2], &matrixB);
   result.rows = matrixA.rows;
   result.cols = matrixB.cols;
 
@@ -118,12 +123,11 @@ int main(int argc, char *argv[]) {
   copyMatrixToHost(d_matrixB, &matrixB);
   copyMatrixToHost(d_result, &result);
 
-    if (argc == 3) {
+  if (argc == 3) {
     writeMatrixToCSV("result_cuda.csv", &result);
   } else {
     writeMatrixToCSV(argv[3], &result);
   }
-
 
   freeMatrix(matrixA.matrix, matrixA.rows);
   freeMatrix(matrixB.matrix, matrixB.rows);
