@@ -25,7 +25,7 @@ MATRIX_SIZE   = 2500
 all: set_size $(OUTPUT_MATRIX) $(OUTPUT_NORMAL) $(OUTPUT_OMP) $(OUTPUT_NVCC) create_matrix
 
 create_matrix: 
-	[[ -f $(INPUT1) && -f $(INPUT2) ]] && printf "Files exist\n" || ./$(OUTPUT_MATRIX) $(INPUT1) $(INPUT2)
+	@if [ ! -f "$(INPUT1)" ] || [ ! -f "$(INPUT2)" ]; then ./$(OUTPUT_MATRIX) $(INPUT1) $(INPUT2); else echo "files exist";  fi
 
 $(OUTPUT_NORMAL): $(SRC_NORMAL)
 	$(CC) $(CFLAGS_NORMAL) -o $(OUTPUT_NORMAL) $(SRC_NORMAL)
